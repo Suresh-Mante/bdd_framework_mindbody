@@ -11,7 +11,7 @@ namespace Specflow_Automation.Hooks
     [Binding]
     public class AutomationHooks
     {
-        public static IWebDriver driver;
+        public IWebDriver driver;
 
         [AfterScenario]
         public void EndScenario()

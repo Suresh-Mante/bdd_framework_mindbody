@@ -7,37 +7,42 @@ using TechTalk.SpecFlow;
 namespace Specflow_Automation.StepDefinitions
 {
     [Binding]
-    [CollectionDefinition("SpecFlowNonParallelizableFeatures", DisableParallelization = false)]
+    //[CollectionDefinition("SpecFlowNonParallelizableFeatures", DisableParallelization = false)]
     public class LoginStepDefinitions
     {
+        private readonly AutomationHooks _automationHooks;
+        public LoginStepDefinitions(AutomationHooks automationHooks)
+        {
+            _automationHooks = automationHooks;
+        }
 
         [Given(@"I have a browser and orangehrm page")]
         public void GivenIHaveABrowserAndOrangehrmPage()
         {
-            AutomationHooks.driver = new ChromeDriver();
-            AutomationHooks.driver.Manage().Window.Maximize();
+            _automationHooks.driver = new ChromeDriver();
+            _automationHooks.driver.Manage().Window.Maximize();
 
-            AutomationHooks.driver.Url = "https://opensource-demo.orangehrmlive.com/";
+            _automationHooks.driver.Url = "https://opensource-demo.orangehrmlive.com/";
 
-            AutomationHooks.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+            _automationHooks.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
 
         [When(@"I enter username as '([^']*)'")]
         public void WhenIEnterUsernameAs(string username)
         {
-            AutomationHooks.driver.FindElement(By.Name("username")).SendKeys(username);
+            _automationHooks.driver.FindElement(By.Name("username")).SendKeys(username);
         }
 
         [When(@"I enter password as '([^']*)'")]
         public void WhenIEnterPasswordAs(string password)
         {
-            AutomationHooks.driver.FindElement(By.Name("password")).SendKeys(password);
+            _automationHooks.driver.FindElement(By.Name("password")).SendKeys(password);
         }
 
         [When(@"I click on Login")]
         public void WhenIClickOnLogin()
         {
-            AutomationHooks.driver.FindElement(By.CssSelector("button[type=submit]")).Click();
+            _automationHooks.driver.FindElement(By.CssSelector("button[type=submit]")).Click();
         }
 
         [Then(@"I should be successfully logged in")]
